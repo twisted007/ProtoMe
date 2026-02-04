@@ -14,7 +14,9 @@ This enables you to use Burp's **Repeater**, **Intruder**, and **Scanner** with 
 
 ## 1. Installation
 
-1.  **Build the Project:**
+1.  **Download the JAR file**
+    * Download the pre-compiled .jar file from this repository.
+1.x **(OPTIONAL) Build the Project:** If you want to customize
     * Open the project in IntelliJ IDEA.
     * Run the Gradle task: `Tasks` > `shadow` > `shadowJar`.
     * Locate the file `build/libs/Protome-1.0-SNAPSHOT-all.jar`. (Note: Use the **`-all`** jar, which includes dependencies).
