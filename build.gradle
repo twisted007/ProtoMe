@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    // The Shadow plugin handles dependency relocation
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'com.protome'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    // Burp API is provided by Burp, so we use compileOnly to avoid bloating the jar
+    compileOnly 'net.portswigger.burp.extensions:montoya-api:2023.10.1'
+
+    // These will be bundled and renamed (shadowed)
+    implementation 'com.google.protobuf:protobuf-java:3.24.0'
+    implementation 'com.google.protobuf:protobuf-java-util:3.24.0'
+    implementation 'com.github.os72:protoc-jar:3.11.4'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// This is the magic part
+shadowJar {
+    // Rename Google's library to a custom name inside our jar
+    relocate 'com.google.protobuf', 'com.protome.shadow.protobuf'
+
+    // (Optional) Rename protoc-jar internal usage if needed, but usually the above is enough
+}
+
+// Tell Java to build the shadow jar when we run build
+build.dependsOn shadowJar
